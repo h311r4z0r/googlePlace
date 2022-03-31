@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Asia-Pacific countries list</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_481580_google_0.google.apac</name>
+        <read_roles/>
+        <suffix>google.apac</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-29 12:06:47</sys_created_on>
+        <sys_id>8e7cae91db664110487e1c9705961963</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>x_481580_google_0.google.apac</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_update_name>sys_properties_8e7cae91db664110487e1c9705961963</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-29 12:11:34</sys_updated_on>
+        <type>string</type>
+        <value>TM,TJ,KG,KZ,UZ,CN,HK,JP,KP,KR,MN,MO,TW,AF,BD,BT,IN,IR,LK,MV,NP,PK,BN,ID,KH,LA,MM,BU,MY,PH,SG,TH,TL,TP,VN,AE,AM,AZ,BH,CY,GE,IL,IQ,JO,KW,LB,OM,PS,QA,SA,NT,SY,TR,YE,YD,AU,NF,NZ,FJ,NC,PG,SB,VU,FM,GU,KI,MH,MP,NR,PW,AS,CK,NU,PF,PN,TK,TO,TV,WF,WS</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=8e7cae91db664110487e1c9705961963"/>
+</record_update>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_481580_google_0.GooglePlace_JSONParser</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>JSON Parser that does not use javascript's eval() function. Safe and secure. It does not check for the validity of the JSON string, but shouldn't create any catastrophic errors.</description>
+        <name>GooglePlace_JSONParser</name>
+        <script><![CDATA[/**
+ * Parses JSON string to javascript object
+ * 
+ * tom.dilatush@service-now.com
+ */
+
+var GooglePlace_JSONParser = Class.create();
+
+GooglePlace_JSONParser.prototype = {
+    parse: function (source) {
+        if (global.JSUtil.nil(source))
+            return;
+
+        return new SNC.JSONParse().decode(source);
+    }
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-28 21:14:24</sys_created_on>
+        <sys_id>a560a70ddb6a0110487e1c970596198d</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>GooglePlace_JSONParser</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_update_name>sys_script_include_a560a70ddb6a0110487e1c970596198d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-28 21:16:23</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Google Location">42c79a81db660110487e1c97059619a4</application>
+        <file_path/>
+        <instance_id>5168dcdddb94f7449df22f17d49619cf</instance_id>
+        <instance_name>dev75876</instance_name>
+        <name>sys_script_include_a560a70ddb6a0110487e1c970596198d</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_481580_google_0.GooglePlace_JSONParser&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description&gt;JSON Parser that does not use javascript's eval() function. Safe and secure. It does not check for the validity of the JSON string, but shouldn't create any catastrophic errors.&lt;/description&gt;&lt;name&gt;GooglePlace_JSONParser&lt;/name&gt;&lt;script&gt;&lt;![CDATA[/**
+ * Parses JSON string to javascript object
+ * 
+ * tom.dilatush@service-now.com
+ */
+
+var GooglePlace_JSONParser = Class.create();
+
+GooglePlace_JSONParser.prototype = {
+    parse: function (source) {
+        if (global.JSUtil.nil(source))
+            return;
+
+        return new SNC.JSONParse().decode(source);
+    }
+};]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2022-03-28 21:14:24&lt;/sys_created_on&gt;&lt;sys_id&gt;a560a70ddb6a0110487e1c970596198d&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;GooglePlace_JSONParser&lt;/sys_name&gt;&lt;sys_package display_value="Google Location" source="x_481580_google_0"&gt;42c79a81db660110487e1c97059619a4&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Google Location"&gt;42c79a81db660110487e1c97059619a4&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_a560a70ddb6a0110487e1c970596198d&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2022-03-28 21:16:23&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>995991526</payload_hash>
+        <record_name>GooglePlace_JSONParser</record_name>
+        <reverted_from/>
+        <source>c2c79a81db660110487e1c97059619a6</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-28 21:16:23</sys_created_on>
+        <sys_id>fed06b0ddb6a0110487e1c9705961921</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>17fd26314fd0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-28 21:16:23</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>7ad06b0d836a01108ef91a9a9bd6f921</update_guid>
+        <update_guid_history>7ad06b0d836a01108ef91a9a9bd6f921:995991526,7580e34d286a0110496c461d34905475:1524344987,7960a70ddc6a0110d97bbf7b5826438f:62686252</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-28 21:27:37</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>7b4694b9bfd8497686c88b9df14797b1</sys_id>
+        <sys_metadata>a560a70ddb6a0110487e1c970596198d</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>GooglePlace_JSONParser</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_scope_delete display_value="">0e91c76833634ec383b8a855de1cb1a9</sys_scope_delete>
+        <sys_update_name>sys_script_include_a560a70ddb6a0110487e1c970596198d</sys_update_name>
+        <sys_update_version display_value="sys_script_include_a560a70ddb6a0110487e1c970596198d">fed06b0ddb6a0110487e1c9705961921</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-28 21:27:37</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element attributes="all_tables.text_index_translations=true" label="Location" max_length="40" name="cmn_location" sizeclass="429" text_index="true" type="collection">
+        <element label="Google Updated" max_length="40" name="x_481580_google_0_google_updated" read_only="true" type="boolean"/>
+        <element label="Google URL" max_length="255" name="x_481580_google_0_google_url" type="url"/>
+        <element label="Place ID" max_length="255" name="x_481580_google_0_place_id" read_only="true" type="string"/>
+    </element>
+</database>

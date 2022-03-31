@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_481580_google_0.googlePlaceUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Script inlcude to parse the action Place Details and process the information into the cmn_locatin table.</description>
+        <name>googlePlaceUtils</name>
+        <script><![CDATA[var googlePlaceUtils = Class.create();
+googlePlaceUtils.prototype = {
+	initialize: function() {
+	},
+
+	feedJSON: function(res,rec){
+		//address_components
+		this._processAddressComponents(res.result.address_components,rec);
+		//geometry.location.lat / lng
+		this._processGeoLocation(res.result.geometry.location,rec);
+		//url
+		this._processURL(res.result.url,rec);
+		//Place ID
+		this._processPlaceID(res.result.place_id,rec);
+	},
+
+	_processAddressComponents: function(ac,rec){
+		//Which name length to use for records
+		var getNameLength = gs.getProperty('x_481580_google_0.google.name');
+
+		for(i=0;i<ac.length;i++){
+			this._processACValues(ac[i],rec,getNameLength);
+		}
+	},
+
+	_processACValues: function(acSec,rec,nameLength){
+		var type = acSec.types[0];
+		var city;
+		var county;
+		var state;
+		var country;
+
+		//Locality = City
+		if(type == "locality"){
+			city = acSec.long_name;
+			if(nameLength == "Short"){
+				city = acSec.short_name;
+			}
+			this._updateLocationRecord('city',city,rec);
+			this._processHierarchy('city',city,rec);
+		}
+
+		//Postal Town = City
+		if(type == "postal_town"){
+			city = acSec.long_name;
+			if(nameLength == "Short"){
+				city = acSec.short_name;
+			}
+			this._updateLocationRecord('city',city,rec);
+			this._processHierarchy('city',city,rec);
+		}
+
+		//Administrative_area_level_2 = County
+		if(type == "administrative_area_level_2"){
+			county = acSec.long_name;
+			if(nameLength == "Short"){
+				county = acSec.short_name;
+			}
+			this._processHierarchy('county',county,rec);
+		}
+
+		//Administrative_area_level_1 = State
+		if(type == "administrative_area_level_1"){
+			state = acSec.long_name;
+			if(nameLength == "Short"){
+				state = acSec.short_name;
+			}
+			this._updateLocationRecord('state',state,rec);
+			this._processHierarchy('state',state,rec);
+		}
+
+
+		//Country
+		if(type == "country"){
+			country = acSec.long_name;
+			if(nameLength == "Short"){
+				country = acSec.short_name;
+			}
+			this._updateLocationRecord('country',country,rec);
+			this._processHierarchy('country',country,rec);
+		}
+		
+		//Postal Code - zipcode
+		if(type == "postal_code"){
+			zipcode = acSec.long_name;
+			if(nameLength == "Short"){
+				zipcode = acSec.short_name;
+			}
+			this._updateLocationRecord('zip',zipcode,rec);
+		}
+		
+		//Postal Code Suffix - zipcode
+		if(type == "postal_code_suffix"){
+			zipcode = acSec.long_name;
+			if(nameLength == "Short"){
+				zipcode = acSec.short_name;
+			}
+			this._updateLocationRecord('zip',zipcode,rec);
+		}
+
+	},
+
+
+	_processGeoLocation: function(geo,rec){
+		var lat = geo.lat;
+		this._updateLocationRecord('latitude',lat,rec);
+
+		var lng = geo.lng;
+		this._updateLocationRecord('longitude',lng,rec);	
+	},
+
+	_processURL: function(url,rec){
+		this._updateLocationRecord('x_481580_google_0_google_url',url,rec);
+	},
+	
+	_processPlaceID: function(placeID,rec){
+		this._updateLocationRecord('x_481580_google_0_place_id',placeID,rec);
+	},
+	
+	_processHierarchy: function(type,name,rec){
+		
+	},
+
+	_updateLocationRecord: function(recField,recValue,locRecord){
+		if(recField == "zip" && recValue.length == 4){
+			var recZip = this._getRecordField('zip','cmn_location',locRecord);
+			recValue = recZip+"-"+recValue;
+		}
+
+		var updateRec = new GlideRecord('cmn_location');
+		updateRec.get(locRecord);
+		updateRec.query();
+		while(updateRec.next()){
+			updateRec.setValue(recField,recValue);
+			updateRec.update();
+		}
+	},
+	
+	_getRecordField: function(field,table,record){
+		var getField = new GlideRecord(table);
+		getField.get(record);
+		getField.query();
+		while(getField.next()){
+			res = getField.getValue(field);
+		}
+		return res;
+	},
+
+	type: 'googlePlaceUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-29 13:40:50</sys_created_on>
+        <sys_id>a5e18f19dba64110487e1c97059619e5</sys_id>
+        <sys_mod_count>35</sys_mod_count>
+        <sys_name>googlePlaceUtils</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_update_name>sys_script_include_a5e18f19dba64110487e1c97059619e5</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-31 16:30:03</sys_updated_on>
+    </sys_script_include>
+</record_update>

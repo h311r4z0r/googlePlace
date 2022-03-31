@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices/>
+        <description>Europe, the Middle East, and Africa countries list</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_481580_google_0.google.emea</name>
+        <read_roles/>
+        <suffix>google.emea</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-29 12:00:05</sys_created_on>
+        <sys_id>56caaa51db664110487e1c970596191f</sys_id>
+        <sys_mod_count>7</sys_mod_count>
+        <sys_name>x_481580_google_0.google.emea</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_update_name>sys_properties_56caaa51db664110487e1c970596191f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-29 12:05:23</sys_updated_on>
+        <type>string</type>
+        <value>DZ,EG,EH,LY,MA,SD,TN,BF,BJ,CI,CV,GH,GM,GN,GW,LR,ML,MR,NE,NG,SH,SL,SN,TG,AO,CD,ZR,CF,CG,CM,GA,GQ,ST,TD,BI,DJ,ER,ET,KE,KM,MG,MU,MW,MZ,RE,RW,SC,SO,TZ,UG,YT,ZM,ZW,BW,LS,NA,SZ,ZA,GG,IM,JE,AX,DK,EE,FI,FO,GB,IE,IM,IS,LT,LV,NO,SE,SJ,AT,BE,CH,DE,DD,FR,FX,LI,LU,MC,NL,BG,BY,CZ,HU,MD,PL,RO,RU,SU,SK,UA,AD,AL,BA,ES,GI,GR,HR,IT,ME,MK,MT,CS,RS,PT,SI,SM,VA,YU</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=56caaa51db664110487e1c970596191f"/>
+</record_update>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_package_dependency_m2m">
+    <sys_package_dependency_m2m action="INSERT_OR_UPDATE">
+        <dependency display_value="System (apps/system_user)" source="apps/system_user">ff95c83121120110a866589604c20db4</dependency>
+        <min_version/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-03-28 19:12:23</sys_created_on>
+        <sys_id>2a744781db2a0110487e1c97059619db</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-03-28 19:12:23</sys_updated_on>
+    </sys_package_dependency_m2m>
+</record_update>
