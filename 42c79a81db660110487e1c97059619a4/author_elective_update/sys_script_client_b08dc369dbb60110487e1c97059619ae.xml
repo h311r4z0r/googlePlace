@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="DELETE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Make cmn_location_type manadatory</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+   g_form.isMandatory('cmn_location_type');   
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-04-11 19:25:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>b08dc369dbb60110487e1c97059619ae</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Make cmn_location_type manadatory</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_update_name>sys_script_client_b08dc369dbb60110487e1c97059619ae</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-04-11 19:25:43</sys_updated_on>
+        <table>cmn_location</table>
+        <type>onLoad</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Google Location">42c79a81db660110487e1c97059619a4</application>
+        <file_path/>
+        <instance_id>5168dcdddb94f7449df22f17d49619cf</instance_id>
+        <instance_name>dev75876</instance_name>
+        <name>sys_script_client_b08dc369dbb60110487e1c97059619ae</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script_client"&gt;&lt;sys_script_client action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;applies_extended&gt;false&lt;/applies_extended&gt;&lt;condition/&gt;&lt;description/&gt;&lt;field/&gt;&lt;global&gt;true&lt;/global&gt;&lt;isolate_script&gt;true&lt;/isolate_script&gt;&lt;messages/&gt;&lt;name&gt;Make cmn_location_type manadatory&lt;/name&gt;&lt;order/&gt;&lt;script&gt;&lt;![CDATA[function onLoad() {
+   g_form.isMandatory('cmn_location_type');   
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_client&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2022-04-11 19:25:43&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;b08dc369dbb60110487e1c97059619ae&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Make cmn_location_type manadatory&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Google Location" source="x_481580_google_0"&gt;42c79a81db660110487e1c97059619a4&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Google Location"&gt;42c79a81db660110487e1c97059619a4&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_client_b08dc369dbb60110487e1c97059619ae&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2022-04-11 19:25:43&lt;/sys_updated_on&gt;&lt;table&gt;cmn_location&lt;/table&gt;&lt;type&gt;onLoad&lt;/type&gt;&lt;ui_type&gt;10&lt;/ui_type&gt;&lt;view/&gt;&lt;/sys_script_client&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1946011171</payload_hash>
+        <record_name>Make cmn_location_type manadatory</record_name>
+        <reverted_from/>
+        <source>8da3ae4edbeec110487e1c970596192c</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-04-11 19:25:43</sys_created_on>
+        <sys_id>56cdc769dbb60110487e1c970596192d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1801a16cb630000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-04-11 19:25:43</sys_updated_on>
+        <type>Client Script</type>
+        <update_guid>5ecd8369a7b60110af020e2f1be27bf2</update_guid>
+        <update_guid_history>5ecd8369a7b60110af020e2f1be27bf2:1946011171</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2022-04-11 19:28:48</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_client">sys_script_client</sys_db_object>
+        <sys_id>2b1ab70b9cca449e910f2db4cdce0ce4</sys_id>
+        <sys_metadata>b08dc369dbb60110487e1c97059619ae</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Make cmn_location_type manadatory</sys_name>
+        <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
+        <sys_parent display_value="Location">3b950c3121120110a866589604c20d1b</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
+        <sys_scope_delete display_value="">0e91c76833634ec383b8a855de1cb1a9</sys_scope_delete>
+        <sys_update_name>sys_script_client_b08dc369dbb60110487e1c97059619ae</sys_update_name>
+        <sys_update_version display_value="sys_script_client_b08dc369dbb60110487e1c97059619ae">56cdc769dbb60110487e1c970596192d</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2022-04-11 19:28:48</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

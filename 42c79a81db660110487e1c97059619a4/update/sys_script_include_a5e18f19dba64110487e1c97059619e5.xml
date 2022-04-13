@@ -13,23 +13,24 @@ googlePlaceUtils.prototype = {
 	},
 
 	feedJSON: function(res,rec){
-		//address_components
 		this._processAddressComponents(res.result.address_components,rec);
-		//geometry.location.lat / lng
 		this._processGeoLocation(res.result.geometry.location,rec);
-		//url
 		this._processURL(res.result.url,rec);
-		//Place ID
 		this._processPlaceID(res.result.place_id,rec);
 	},
 
+	processfromUIAction: function(arr,rec,type){
+		var json = this.triggerUIAction(arr,rec,type);
+		this.feedJSON(json,rec);
+	},
+
 	_processAddressComponents: function(ac,rec){
-		//Which name length to use for records
 		var getNameLength = gs.getProperty('x_481580_google_0.google.name');
 
 		for(i=0;i<ac.length;i++){
 			this._processACValues(ac[i],rec,getNameLength);
 		}
+		this._processParents(rec);
 	},
 
 	_processACValues: function(acSec,rec,nameLength){
@@ -59,15 +60,6 @@ googlePlaceUtils.prototype = {
 			this._processHierarchy('city',city,rec);
 		}
 
-		//Administrative_area_level_2 = County
-		if(type == "administrative_area_level_2"){
-			county = acSec.long_name;
-			if(nameLength == "Short"){
-				county = acSec.short_name;
-			}
-			this._processHierarchy('county',county,rec);
-		}
-
 		//Administrative_area_level_1 = State
 		if(type == "administrative_area_level_1"){
 			state = acSec.long_name;
@@ -78,17 +70,17 @@ googlePlaceUtils.prototype = {
 			this._processHierarchy('state',state,rec);
 		}
 
-
 		//Country
 		if(type == "country"){
 			country = acSec.long_name;
 			if(nameLength == "Short"){
 				country = acSec.short_name;
 			}
+			var twoCharcter = acSec.short_name;
 			this._updateLocationRecord('country',country,rec);
-			this._processHierarchy('country',country,rec);
+			this._processHierarchy('country',country,rec,twoCharcter);
 		}
-		
+
 		//Postal Code - zipcode
 		if(type == "postal_code"){
 			zipcode = acSec.long_name;
@@ -97,7 +89,7 @@ googlePlaceUtils.prototype = {
 			}
 			this._updateLocationRecord('zip',zipcode,rec);
 		}
-		
+
 		//Postal Code Suffix - zipcode
 		if(type == "postal_code_suffix"){
 			zipcode = acSec.long_name;
@@ -109,11 +101,9 @@ googlePlaceUtils.prototype = {
 
 	},
 
-
 	_processGeoLocation: function(geo,rec){
 		var lat = geo.lat;
 		this._updateLocationRecord('latitude',lat,rec);
-
 		var lng = geo.lng;
 		this._updateLocationRecord('longitude',lng,rec);	
 	},
@@ -121,13 +111,166 @@ googlePlaceUtils.prototype = {
 	_processURL: function(url,rec){
 		this._updateLocationRecord('x_481580_google_0_google_url',url,rec);
 	},
-	
+
 	_processPlaceID: function(placeID,rec){
 		this._updateLocationRecord('x_481580_google_0_place_id',placeID,rec);
 	},
-	
-	_processHierarchy: function(type,name,rec){
-		
+
+	_processHierarchy: function(type,name,rec,shortCountry){
+		var recCount = this._countRecords(name,"cmn_location");
+		if(type == "state"){
+			type = "state/province";
+		}
+		if(recCount == 0){
+			recCreated = this._createLocationRecord(type,name);
+		}
+	},
+
+	//Process parents after main record is created
+	_processParents: function(rec){
+		var getFields = new GlideRecord('cmn_location');
+		getFields.get(rec);
+		getFields.query();
+		while(getFields.next()){
+			city = getFields.getValue('city');
+			state = getFields.getValue('state');
+			country = getFields.getValue('country');
+		}
+
+		var cityID = this._getRecordFieldEncoded("sys_id","cmn_location","name="+city);
+		var stateID = this._getRecordFieldEncoded("sys_id","cmn_location","name="+state);
+		var countryID = this._getRecordFieldEncoded("sys_id","cmn_location","name="+country);
+		if(cityID){
+			this._updateLocationRecord("parent",cityID,rec);
+			this._updateLocationRecord("city",city,cityID);
+			this._updateLocationRecord("cmn_location_type","city",cityID);
+			this._updateLocationRecord("state",state,cityID);
+			this._updateLocationRecord("country",country,cityID);
+			cityArr = [];
+			cityArr.push(city);
+			cityArr.push(state);
+			cityArr.push(country);
+			this.triggerPlaceSearchAction(cityArr,cityID,"city");
+			this._updateLocationRecord("x_481580_google_0_google_updated","true",cityID);
+			this._updateLocationRecord("x_481580_google_0_message","Location found and updated.",cityID);
+			this._updateLocationRecord("cmn_location_source","google",cityID);
+		}
+
+		if(stateID){
+			this._updateLocationRecord("parent",stateID,cityID);
+			this._updateLocationRecord("cmn_location_type","state/province",stateID);
+			this._updateLocationRecord("state",state,stateID);
+			this._updateLocationRecord("country",country,stateID,"state");
+			stateArr = [];
+			stateArr.push(state);
+			stateArr.push(country);
+			this.triggerPlaceSearchAction(stateArr,stateID,"state/province");
+			this._updateLocationRecord("x_481580_google_0_google_updated","true",stateID);
+			this._updateLocationRecord("x_481580_google_0_message","Location found and updated.",stateID);
+			this._updateLocationRecord("cmn_location_source","google",stateID);
+		}
+
+		if(countryID){
+			this._updateLocationRecord("parent",countryID,stateID);
+			this._updateLocationRecord("cmn_location_type","country",countryID);
+			this._updateLocationRecord("country",country,countryID);
+			countryArr = [];
+			countryArr.push(country);
+			countryArr.push("country");
+			var regionID = this.triggerPlaceSearchAction(countryArr,countryID,"country");
+			this._updateLocationRecord("x_481580_google_0_google_updated","true",countryID);
+			this._updateLocationRecord("x_481580_google_0_message","Location found and updated.",countryID);
+			this._updateLocationRecord("cmn_location_source","google",countryID);
+			this._updateLocationRecord("parent",regionID,countryID);
+			this._updateLocationRecord("cmn_location_type","region",regionID);
+			this._updateLocationRecord("x_481580_google_0_google_updated","true",regionID);
+			this._updateLocationRecord("x_481580_google_0_message","Location found and updated.",regionID);
+			this._updateLocationRecord("cmn_location_source","google",regionID);
+		}
+
+	},
+
+	triggerPlaceSearchAction: function(arr,rec,type){
+		var api_key = gs.getProperty('x_481580_google_0.google.api_key');
+		var psinputs = {};
+		psinputs['place'] = arr.toString();
+		psinputs['api_key'] = api_key;
+		var psoutputs = sn_fd.FlowAPI.executeActionQuick('x_481580_google_0.place_search', psinputs);
+		var place_id = psoutputs['place_id']; 
+		var pdinputs = {};
+		pdinputs['place_id'] = place_id;
+		pdinputs['api_key'] = api_key;
+		var pdoutputs = sn_fd.FlowAPI.executeActionQuick('x_481580_google_0.place_details_script_called', pdinputs);
+		var json = pdoutputs['json'];
+		var parser = new global.JSONParser();
+		var res = parser.parse(json);
+		this._processGeoLocation(res.result.geometry.location,rec);
+		this._processURL(res.result.url,rec);
+		this._processPlaceID(res.result.place_id,rec);
+		this._updateLocationRecord("x_481580_google_0_goodle_updated","true",rec);
+		if(type == "country"){
+			shortCode = res.result.address_components[0].short_name;
+			region = this._obtainRegion(shortCode);
+			return region;
+		}
+	},
+
+	triggerUIAction: function(arr,rec,type){
+		var api_key = gs.getProperty('x_481580_google_0.google.api_key');
+		var psinputs = {};
+		psinputs['place'] = arr.toString();
+		psinputs['api_key'] = api_key;
+		var psoutputs = sn_fd.FlowAPI.executeActionQuick('x_481580_google_0.place_search', psinputs);
+		var place_id = psoutputs['place_id']; 
+		var pdinputs = {};
+		pdinputs['place_id'] = place_id;
+		pdinputs['api_key'] = api_key;
+		var pdoutputs = sn_fd.FlowAPI.executeActionQuick('x_481580_google_0.place_details_script_called', pdinputs);
+		var json = pdoutputs['json'];
+		var parser = new global.JSONParser();
+		var res = parser.parse(json);
+		return res;
+	},
+
+	_obtainRegion: function(shortCode){
+		var res = '';
+		var emea = gs.getProperty('x_481580_google_0.google.emea');
+		var latam = gs.getProperty('x_481580_google_0.google.latam');
+		var na = gs.getProperty('x_481580_google_0.google.na');
+		var apac = gs.getProperty('x_481580_google_0.google.apac');
+		var resEmea = emea.includes(shortCode);
+		if(resEmea == true){
+			var lookUpEmea = this._getRecordFieldEncoded("sys_id","cmn_location","name=EMEA");
+			if(!lookUpEmea){
+				lookUpEmea = this._createLocationRecord('',"EMEA");
+			}
+			res = lookUpEmea;				
+		}
+		var resLatam = latam.includes(shortCode);
+		if(resLatam == true){
+			var lookUpLatam = this._getRecordFieldEncoded("sys_id","cmn_location","name=LATAM");
+			if(!lookUpLatam){
+				lookUpLatam = this._createLocationRecord('',"LATAM");
+			}
+			res = lookUpLatam;
+		}
+		var resNa = na.includes(shortCode);
+		if(resNa == true){
+			var lookUpNa = this._getRecordFieldEncoded("sys_id","cmn_location","name=NA");
+			if(!lookUpNa){
+				lookUpNa = this._createLocationRecord('',"NA");
+			}
+			res = lookUpNa;
+		}
+		var resApac = apac.includes(shortCode);
+		if(resApac == true){
+			var lookUpApac = this._getRecordFieldEncoded("sys_id","cmn_location","name=APAC");
+			if(!lookUpApac){
+				lookUpApac = this._createLocationRecord('',"APAC");
+			}
+			res = lookUpApac;
+		}
+		return res;
 	},
 
 	_updateLocationRecord: function(recField,recValue,locRecord){
@@ -135,7 +278,6 @@ googlePlaceUtils.prototype = {
 			var recZip = this._getRecordField('zip','cmn_location',locRecord);
 			recValue = recZip+"-"+recValue;
 		}
-
 		var updateRec = new GlideRecord('cmn_location');
 		updateRec.get(locRecord);
 		updateRec.query();
@@ -144,7 +286,31 @@ googlePlaceUtils.prototype = {
 			updateRec.update();
 		}
 	},
-	
+
+	_createLocationRecord: function(type,name){
+		var city;
+		var state;
+		var country;
+		if(type == "city"){
+			city = name;
+		}
+		if(type == "state/province"){
+			state = name;
+		}
+		if(type == "country"){
+			country = name;
+		}
+		var createRec = new GlideRecord('cmn_location');
+		createRec.initialize();
+		createRec.name = name;
+		createRec.cmn_location_type = type;
+		createRec.city = city;
+		createRec.state = state;
+		createRec.country = country;
+		createRec.insert();
+		return createRec.sys_id;
+	},
+
 	_getRecordField: function(field,table,record){
 		var getField = new GlideRecord(table);
 		getField.get(record);
@@ -155,19 +321,42 @@ googlePlaceUtils.prototype = {
 		return res;
 	},
 
+	_getRecordFieldEncoded: function(field,table,encq){
+		var res = '';
+		var getRec = new GlideRecord(table);
+		getRec.addEncodedQuery(encq);
+		getRec.query();
+		while(getRec.next()){
+			res = getRec.getValue(field);
+		}
+		return res;
+	},
+
+	_countRecords: function(name,table){
+		var recCount = 0;
+		var ctGA = new GlideAggregate(table);
+		ctGA.addAggregate('COUNT');
+		ctGA.addEncodedQuery('name='+name);
+		ctGA.query();
+		while (ctGA.next()) {
+			recCount = ctGA.getAggregate('COUNT');
+		}
+		return recCount;
+	},
+
 	type: 'googlePlaceUtils'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2022-03-29 13:40:50</sys_created_on>
         <sys_id>a5e18f19dba64110487e1c97059619e5</sys_id>
-        <sys_mod_count>35</sys_mod_count>
+        <sys_mod_count>97</sys_mod_count>
         <sys_name>googlePlaceUtils</sys_name>
         <sys_package display_value="Google Location" source="x_481580_google_0">42c79a81db660110487e1c97059619a4</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Google Location">42c79a81db660110487e1c97059619a4</sys_scope>
         <sys_update_name>sys_script_include_a5e18f19dba64110487e1c97059619e5</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2022-03-31 16:30:03</sys_updated_on>
+        <sys_updated_on>2022-04-11 19:18:26</sys_updated_on>
     </sys_script_include>
 </record_update>
